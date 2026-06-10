@@ -1,4 +1,13 @@
-from scholarly import scholarly
+from scholarly import scholarly, ProxyGenerator
+
+pg = ProxyGenerator()
+
+try:
+    pg.FreeProxies()
+    scholarly.use_proxy(pg)
+    print("Using proxy")
+except Exception:
+    print("No proxy available")
 import json
 from datetime import datetime
 import os
@@ -51,8 +60,10 @@ def update_scholar_stats():
       print("\nSuccessfully updated scholar stats and publications")
       
   except Exception as e:
-      print(f"Error updating scholar stats: {str(e)}")
-      raise e
+    print(f"Error updating scholar stats: {e}")
+    print("Keeping previous scholar_stats.json")
+
+    sys.exit(0)
 
 if __name__ == "__main__":
   update_scholar_stats()
